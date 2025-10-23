@@ -1,0 +1,446 @@
+{
+  "categories": [
+    {
+      "id": "1",
+      "name": "Sistema ERP"
+    },
+    {
+      "id": "2",
+      "name": "Sistema 3D"
+    },
+    {
+      "id": "0c4e",
+      "name": "Teste"
+    }
+  ],
+  "checklists": [
+    {
+      "id": "1",
+      "categoryId": 1,
+      "name": "Preparar versão para compilar",
+      "items": [
+        {
+          "id": "1.1",
+          "description": "Funcionando teste",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.2",
+          "description": "Abrir a pesquisa 'Manager -> 04 - Aguardando Compilação'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.0",
+          "description": "Alterar itens para qualidade",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.3",
+          "description": "Selecionar todos os itens da iteração corrente",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "2.0",
+          "description": "Criar pesquisa da versão",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.5",
+          "description": "Na coluna DataCompilacao atualizar todos os registros para a ultima data exemplo - '22/01/2018'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.6",
+          "description": "Na coluna State altualizar todos os registros para 'Quality'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.7",
+          "description": "Na Aba Assigned to colocar para o responsável da distribuição",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.8",
+          "description": "Na aba Team clicar em Publish",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.9",
+          "description": "Fechar o Excel",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "2.1",
+          "description": "Abrir o caminho 'Compilations > ERP \\2018\\'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "2.3",
+          "description": "Clicar com o botão direito na pesquisa criada e clicar em 'Edit Query'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "2.4",
+          "description": "Clicar em 'Save Query' E clique em Run",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.4",
+          "description": "Abrir o Arquivo 'Registro de Versão'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "2.5",
+          "description": "Clicar em 'Open in Microsoft Officce > Open Query in Microsoft Excel'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "2.6",
+          "description": "Não fechar o Excel",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.0",
+          "description": "Alterar o Excel de itens da versão",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.2",
+          "description": "Abrir o Caminho 'ERP\\01 Desenvolvimento\\Tools\\Wps_Procedimentos\\Wps_Procedimentos\\ Procedimento Atualização\\Compilação'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "2.2",
+          "description": "Copiar a ultima pesquisa e colar renomeando para a data da compilação atual",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.1",
+          "description": "Get Last Version e Abrir o Source Control Explorer",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.3",
+          "description": "Clicar com o botão direito no arquivo 'Registro de Versão' e clicar em 'Check Out for Edit...'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.5",
+          "description": "Copiar o conteúdo das colunas 'ID, Title, Responsável, Cliente' do Excel do ite",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.6",
+          "description": "Colar no Excel 'Registro de Versão'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.7",
+          "description": "Salvar o arquivo e fazer check in no arquivo 'Registro de Versão'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.0",
+          "description": "Passar para o responsável da compilação depois de compilar a versão",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "14",
+          "description": "jhkjhkjhk",
+          "checked": false,
+          "subItems": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "categoryId": 1,
+      "name": "Compilação base de dados",
+      "items": [
+        {
+          "id": "1.0",
+          "description": "Baixar a última versão",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "1.1",
+          "description": "Abrir o Source Control Explorer",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.2",
+          "description": "Baixar a Versão atual da raiz WpsCollection (Get Latest Version)",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.0",
+          "description": "Ajustar projeto Base de Dados",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.1",
+          "description": "Abrir a solution 'ERP > 1- Desenvolvimento > Tools > Wps_Base_Dados'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.2",
+          "description": "No diretório 'atualização\\2018- Criar um diretório do mês atual´ criar um diretório com as seguintes informações 'data de compilação da versão' formatação: ex: 18-08-2015 09 00 00",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.3",
+          "description": "Arrastar os scripts de dentro do diretório scripts para o recem criado",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.4",
+          "description": "Selecione todos os scripts, clique com o direito vai em properties em copy to... Mudar para Copy always salva",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.5",
+          "description": "Conferir se os scripts estão no formato UTF-8 e se possuem IF para criação de um novo se já existir, ou drop table",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.0",
+          "description": "Virada de Versão",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.1",
+          "description": "Fazer uma copiar para dentro do diretório virada da versão seguindo a sequencia da numeração 'use open folder'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.2",
+          "description": "Colocar o script dentro - habilitar 'show all files ' clique com o direito include in project",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "3.3",
+          "description": "clique com o direito vai em properties em copy to... Mudar para Copy always salva",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.0",
+          "description": "Instalação Base Zerada Estrutura",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.1",
+          "description": "Verificar se tem algum script que faz modificações na estrutura",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.2",
+          "description": "Abrir o SQL Server na instancia 'WPS-2\\DBWPSSQL'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.3",
+          "description": "Rodar os novos scripts no banco 1159, somente os que fazem alguma modificação na estrutura",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.4",
+          "description": "Clicar com o botão direito na base de dados Ex 1159",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.5",
+          "description": "No menu selecionar Tasks > Generate Scripts",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.6",
+          "description": "Na janela aberta selecionar Next > Next > Selecionar a opção 'Save to new query window' > Next > Next > Finish",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.7",
+          "description": "Abrir No PROJETO BASE DE DADOS - Na Solution - Procurar por 'instalação > 01 - estrutura > 01 - Criação da Base.sql'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "4.8",
+          "description": "No script gerado no SQL SERVER: Copiar e colar todo conteudo no Visual Studio ; Script Criação da Base.sql e depois Remover o trecho do script entre USE [MASTER] e USE [VERSÃO]. (Linhas 1 até 79) Colar o conteúdo do restante",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "5.0",
+          "description": "Instalação Base Zerada Dados",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "5.1",
+          "description": "Fazer uma copia dos scripts de dados para dentro do diretório  02 - Dados os que são de dados seguindo a sequencia da numeração 'use open folder'",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "5.2",
+          "description": "Colocar o script dentro - habilitar 'show all files ' clique com o direito include in project",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "5.3",
+          "description": "clique com o direito vai em properties em copy to... Mudar para Copy always salva",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "5.4",
+          "description": "Subir alterações no TFS",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "5.5",
+          "description": "Verificar se os demais escript estão ok",
+          "checked": false,
+          "subItems": []
+        },
+        {
+          "id": "5.6",
+          "description": "Subir alterações no TFS",
+          "checked": false,
+          "subItems": []
+        }
+      ]
+    },
+    {
+      "id": "6aef",
+      "categoryId": 0,
+      "name": "Teste Item",
+      "items": [
+        {
+          "id": "1",
+          "description": "Item mates",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2",
+          "description": "Teste 2",
+          "checked": true,
+          "subItems": []
+        }
+      ]
+    }
+  ],
+  "completedChecklists": [
+    {
+      "id": "6aef",
+      "categoryId": 0,
+      "name": "Teste Item",
+      "items": [
+        {
+          "id": "1",
+          "description": "Item mates",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2",
+          "description": "Teste 2",
+          "checked": true,
+          "subItems": []
+        }
+      ],
+      "completedBy": "crisbelarma",
+      "completedDate": "2025-10-22T23:36:10.069Z"
+    },
+    {
+      "id": "6aef",
+      "categoryId": 0,
+      "name": "Teste Item",
+      "items": [
+        {
+          "id": "1",
+          "description": "Item mates",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2",
+          "description": "Teste 2",
+          "checked": true,
+          "subItems": []
+        }
+      ],
+      "completedBy": "crisbelarma",
+      "completedDate": "2025-10-22T23:36:18.606Z"
+    },
+    {
+      "id": "6aef",
+      "categoryId": 0,
+      "name": "Teste Item",
+      "items": [
+        {
+          "id": "1",
+          "description": "Item mates",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2",
+          "description": "Teste 2",
+          "checked": true,
+          "subItems": []
+        }
+      ],
+      "completedBy": "crisbelarma",
+      "completedDate": "2025-10-22T23:47:04.584Z"
+    }
+  ]
+}
