@@ -1,29 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, useParams, useNavigate, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import { Container, Navbar, Nav, Button, Form, ListGroup, Row, Col, Alert } from 'react-bootstrap';
+import Cookies from 'js-cookie';
+import { Container, Navbar, Nav, Button, Form, ListGroup, Row, Col, Alert, Accordion } from 'react-bootstrap';
 import { DndContext, closestCenter, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const API_BASE = 'http://localhost:3001';
-
-function ErrorBoundary({ children }) {
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    const errorHandler = (error) => {
-      setHasError(true);
-    };
-    window.addEventListener('error', errorHandler);
-    return () => window.removeEventListener('error', errorHandler);
-  }, []);
-
-  if (hasError) {
-    return <Alert variant="danger">Something went wrong. Please refresh the page or try again later.</Alert>;
-  }
-  return children;
-}
+const API_BASE = 'http://localhost:3001'; // Atualize para o backend em produção
 
 function SortableItem({ id, children }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -39,29 +23,137 @@ function SortableItem({ id, children }) {
 }
 
 function App() {
-  const [username, setUsername] = useState(localStorage.getItem('username') || '');
-
-  useEffect(() => {
-    if (!username) {
-      const user = prompt('Enter your username:');
-      if (user) {
-        setUsername(user);
-        localStorage.setItem('username', user);
-      }
-    }
-  }, []);
+  const [username, setUsername] = useState(Cookies.get('username') || '');
 
   return (
-    <ErrorBoundary>
+    <Routes>
+      <Route path="/login" element={<Login setUsername={setUsername} />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/*" element={username ? <MainApp username={username} setUsername={setUsername} /> : <Navigate to="/login" />} />
+    </Routes>
+  );
+}
+
+// Tela de Cadastro
+function Register() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
+
+  const handleRegister = async () => {
+    if (!name || !email || !password) {
+      setError('Preencha todos os campos.');
+      return;
+    }
+
+    try {
+      await axios.post(`${API_BASE}/users`, { name, email, password });
+      setSuccess('Usuário cadastrado com sucesso! Redirecionando para login...');
+      setTimeout(() => navigate('/login'), 2000);
+    } catch (err) {
+      setError('Erro ao cadastrar. E-mail já existe?');
+    }
+  };
+
+  return (
+    <Container className="mt-5">
+      <h2>Cadastrar Usuário</h2>
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">{success}</Alert>}
+      <Form>
+        <Form.Group className="mb-3">
+          <Form.Label>Nome</Form.Label>
+          <Form.Control value={name} onChange={e => setName(e.target.value)} placeholder="Seu nome completo" />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>E-mail</Form.Label>
+          <Form.Control type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="exemplo@dominio.com" />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Senha</Form.Label>
+          <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Mínimo 6 caracteres" />
+        </Form.Group>
+        <Button onClick={handleRegister} variant="primary">Cadastrar</Button>
+        <Button variant="link" as={Link} to="/login" className="ms-2">Já tem conta? Faça login</Button>
+      </Form>
+    </Container>
+  );
+}
+
+// Tela de Login
+function Login({ setUsername }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError('Preencha e-mail e senha.');
+      return;
+    }
+
+    try {
+      const res = await axios.get(`${API_BASE}/users?email=${email}&password=${password}`);
+      if (res.data.length > 0) {
+        const user = res.data[0];
+        setUsername(user.name);
+        Cookies.set('username', user.name, { expires: 7 });
+        Cookies.set('userId', user.id, { expires: 7 });
+        navigate('/');
+      } else {
+        setError('E-mail ou senha incorretos.');
+      }
+    } catch (err) {
+      setError('Erro ao fazer login. Tente novamente.');
+    }
+  };
+
+  return (
+    <Container className="mt-5">
+      <h2>Login</h2>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Form>
+        <Form.Group className="mb-3">
+          <Form.Label>E-mail</Form.Label>
+          <Form.Control type="email" value={email} onChange={e => setEmail(e.target.value)} />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Senha</Form.Label>
+          <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} />
+        </Form.Group>
+        <Button onClick={handleLogin} className="me-2">Entrar</Button>
+        <Button variant="link" as={Link} to="/register">Criar conta</Button>
+      </Form>
+    </Container>
+  );
+}
+
+function MainApp({ username, setUsername }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setUsername('');
+    Cookies.remove('username');
+    Cookies.remove('userId');
+    navigate('/login');
+  };
+
+  return (
+    <>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
           <Navbar.Brand>Checklist System</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <Nav.Link as={Link} to="/add-category">Add Category</Nav.Link>
-            <Nav.Link as={Link} to="/completed">Completed Checklists</Nav.Link>
+            <Nav.Link as={Link} to="/add-category">Adicionar Categoria</Nav.Link>
+            <Nav.Link as={Link} to="/completed">Checklists Concluídos</Nav.Link>
           </Nav>
-          <Navbar.Text>User: {username || 'Guest'}</Navbar.Text>
+          <Navbar.Text>Bem-vindo, {username}!</Navbar.Text>
+          <Button variant="outline-light" className="ms-2" onClick={handleLogout}>Sair</Button>
         </Container>
       </Navbar>
       <Container className="mt-4">
@@ -73,7 +165,7 @@ function App() {
           <Route path="/completed" element={<CompletedChecklists />} />
         </Routes>
       </Container>
-    </ErrorBoundary>
+    </>
   );
 }
 
@@ -85,35 +177,35 @@ function Home({ username }) {
   useEffect(() => {
     axios.get(`${API_BASE}/categories`)
       .then(res => setCategories(res.data))
-      .catch(() => setError('Failed to load categories. Please try again.'));
+      .catch(() => setError('Erro ao carregar categorias.'));
   }, [refresh]);
 
   return (
-    <ErrorBoundary>
+    <>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Button onClick={() => setRefresh(r => r + 1)} className="mb-3">Refresh Categories</Button>
-      <h2>Select a Category to Start Checklist</h2>
+      <Button onClick={() => setRefresh(r => r + 1)} className="mb-3">Atualizar</Button>
+      <h2>Selecione uma Categoria</h2>
       <ListGroup>
         {categories.map(cat => (
           <ListGroup.Item key={cat.id}>
             {cat.name}
-            <Button variant="primary" className="ms-2" as={Link} to={`/add-checklist/${cat.id}`}>Add Checklist</Button>
-            <ChecklistSelector categoryId={cat.id} username={username} />
+            <Button variant="primary" className="ms-2" as={Link} to={`/add-checklist/${cat.id}`}>+ Checklist</Button>
+            <ChecklistSelector categoryId={cat.id} />
           </ListGroup.Item>
         ))}
       </ListGroup>
-    </ErrorBoundary>
+    </>
   );
 }
 
-function ChecklistSelector({ categoryId, username }) {
+function ChecklistSelector({ categoryId }) {
   const [checklists, setChecklists] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${API_BASE}/checklists?categoryId=${categoryId}`)
       .then(res => setChecklists(res.data))
-      .catch(() => setError('Failed to load checklists. Please try again.'));
+      .catch(() => setError('Erro ao carregar checklists.'));
   }, [categoryId]);
 
   return (
@@ -123,7 +215,7 @@ function ChecklistSelector({ categoryId, username }) {
         {checklists.map(cl => (
           <ListGroup.Item key={cl.id}>
             {cl.name}
-            <Button variant="success" className="ms-2" as={Link} to={`/checklist/${cl.id}`}>Start</Button>
+            <Button variant="success" className="ms-2" as={Link} to={`/checklist/${cl.id}`}>Iniciar</Button>
           </ListGroup.Item>
         ))}
       </ListGroup>
@@ -137,30 +229,27 @@ function AddCategory() {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    if (!name) {
-      alert('Category name is required.');
-      return;
-    }
+    if (!name) return alert('Nome da categoria é obrigatório.');
     axios.post(`${API_BASE}/categories`, { name })
       .then(() => {
-        alert('Category added!');
+        alert('Categoria adicionada!');
         navigate('/');
       })
-      .catch(() => setError('Failed to add category. Please try again.'));
+      .catch(() => setError('Erro ao adicionar categoria.'));
   };
 
   return (
-    <ErrorBoundary>
+    <>
       {error && <Alert variant="danger">{error}</Alert>}
-      <h2>Add New Category</h2>
+      <h2>Nova Categoria</h2>
       <Form>
         <Form.Group>
-          <Form.Label>Name</Form.Label>
+          <Form.Label>Nome</Form.Label>
           <Form.Control value={name} onChange={e => setName(e.target.value)} />
         </Form.Group>
-        <Button onClick={handleSubmit} className="mt-2">Save</Button>
+        <Button onClick={handleSubmit} className="mt-2">Salvar</Button>
       </Form>
-    </ErrorBoundary>
+    </>
   );
 }
 
@@ -168,108 +257,73 @@ function AddChecklist() {
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const [name, setName] = useState('');
-  const [items, setItems] = useState([{ id: '', description: '', checked: false, subItems: [] }]);
+  const [items, setItems] = useState([{ id: '', description: '', checked: false }]);
   const [error, setError] = useState(null);
   const sensors = useSensors(useSensor(PointerSensor));
 
-  const addItem = () => {
-    setItems([...items, { id: '', description: '', checked: false, subItems: [] }]);
-  };
-
-  const updateItem = (index, field, value) => {
+  const addItem = () => setItems([...items, { id: '', description: '', checked: false }]);
+  const updateItem = (i, field, value) => {
     const newItems = [...items];
-    newItems[index][field] = value;
+    newItems[i][field] = value;
     setItems(newItems);
   };
-
-  const deleteItem = (index) => {
-    setItems(items.filter((_, i) => i !== index));
-  };
+  const deleteItem = (i) => setItems(items.filter((_, idx) => idx !== i));
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    const oldIndex = items.findIndex((_, index) => `item-${index}` === active.id);
-    const newIndex = items.findIndex((_, index) => `item-${index}` === over.id);
+    const oldIdx = items.findIndex((_, i) => `item-${i}` === active.id);
+    const newIdx = items.findIndex((_, i) => `item-${i}` === over.id);
     const newItems = [...items];
-    const [movedItem] = newItems.splice(oldIndex, 1);
-    newItems.splice(newIndex, 0, movedItem);
+    const [moved] = newItems.splice(oldIdx, 1);
+    newItems.splice(newIdx, 0, moved);
     setItems(newItems);
   };
 
   const handleSubmit = () => {
-    if (!name || items.some(item => !item.id || !item.description)) {
-      alert('Please fill in checklist name and all item IDs/descriptions.');
-      return;
+    if (!name || items.some(i => !i.id || !i.description)) {
+      return alert('Preencha nome e todos os itens.');
     }
     axios.post(`${API_BASE}/checklists`, { categoryId: parseInt(categoryId), name, items })
       .then(() => {
-        alert('Checklist added!');
+        alert('Checklist criado!');
         navigate('/');
       })
-      .catch(() => setError('Failed to add checklist. Please try again.'));
+      .catch(() => setError('Erro ao salvar checklist.'));
   };
 
   return (
-    <ErrorBoundary>
+    <>
       {error && <Alert variant="danger">{error}</Alert>}
-      <h2>Add New Checklist to Category</h2>
+      <h2>Novo Checklist</h2>
       <Form>
-        <Form.Group>
-          <Form.Label>Name</Form.Label>
-          <Form.Control value={name} onChange={e => setName(e.target.value)} />
-        </Form.Group>
-        <h4>Items</h4>
+        <Form.Group><Form.Label>Nome</Form.Label><Form.Control value={name} onChange={e => setName(e.target.value)} /></Form.Group>
+        <h4>Itens</h4>
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={items.map((_, index) => `item-${index}`)} strategy={verticalListSortingStrategy}>
+          <SortableContext items={items.map((_, i) => `item-${i}`)} strategy={verticalListSortingStrategy}>
             {items.map((item, idx) => (
               <SortableItem key={`item-${idx}`} id={`item-${idx}`}>
                 {({ dragHandleProps }) => (
                   <Row className="mb-2 align-items-center">
-                    <Col xs={1}>
-                      <span className="text-muted" {...dragHandleProps}>☰</span>
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        placeholder="ID (e.g., 1.0)"
-                        value={item.id}
-                        onChange={e => updateItem(idx, 'id', e.target.value)}
-                      />
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        placeholder="Description"
-                        value={item.description}
-                        onChange={e => updateItem(idx, 'description', e.target.value)}
-                      />
-                    </Col>
-                    <Col xs={2}>
-                      <Button
-                        variant="danger"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteItem(idx);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </Col>
+                    <Col xs={1}><span className="text-muted" {...dragHandleProps}>Handle</span></Col>
+                    <Col><Form.Control placeholder="ID" value={item.id} onChange={e => updateItem(idx, 'id', e.target.value)} /></Col>
+                    <Col><Form.Control placeholder="Descrição" value={item.description} onChange={e => updateItem(idx, 'description', e.target.value)} /></Col>
+                    <Col xs={2}><Button variant="danger" onClick={e => { e.stopPropagation(); deleteItem(idx); }}>Excluir</Button></Col>
                   </Row>
                 )}
               </SortableItem>
             ))}
           </SortableContext>
         </DndContext>
-        <Button variant="secondary" onClick={addItem}>Add Item</Button>
-        <Button onClick={handleSubmit} className="mt-2 ms-2">Save Checklist</Button>
+        <Button variant="secondary" onClick={addItem}>+ Item</Button>
+        <Button onClick={handleSubmit} className="mt-2 ms-2">Salvar</Button>
       </Form>
-    </ErrorBoundary>
+    </>
   );
 }
 
 function ChecklistView({ username }) {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [checklist, setChecklist] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -279,7 +333,7 @@ function ChecklistView({ username }) {
   useEffect(() => {
     axios.get(`${API_BASE}/checklists/${id}`)
       .then(res => setChecklist(res.data))
-      .catch(() => setError('Failed to load checklist. Please try again.'));
+      .catch(() => setError('Erro ao carregar checklist.'));
   }, [id]);
 
   const toggleItem = (itemId) => {
@@ -287,115 +341,83 @@ function ChecklistView({ username }) {
     const newItems = checklist.items.map(item => 
       item.id === itemId ? { ...item, checked: !item.checked } : item
     );
-    const updatedChecklist = { ...checklist, items: newItems };
-    setChecklist(updatedChecklist);
-    axios.patch(`${API_BASE}/checklists/${id}`, { items: newItems })
-      .catch(() => setError('Failed to update checklist. Please try again.'));
-    const allChecked = newItems.every(item => item.checked);
+    const updated = { ...checklist, items: newItems };
+    setChecklist(updated);
+    axios.patch(`${API_BASE}/checklists/${id}`, { items: newItems }).catch(() => setError('Erro ao atualizar.'));
+
+    const allChecked = newItems.every(i => i.checked);
     setIsComplete(allChecked);
     if (allChecked) {
-      const completed = { ...updatedChecklist, completedBy: username, completedDate: new Date().toISOString() };
+      const completed = {
+        ...updated,
+        completedBy: username,
+        userId: Cookies.get('userId'),
+        completedDate: new Date().toISOString(),
+        compilationDate: new Date().toISOString()
+      };
       axios.post(`${API_BASE}/completedChecklists`, completed)
-        .then(() => alert('Checklist completed and saved!'))
-        .catch(() => setError('Failed to save completed checklist. Please try again.'));
+        .then(() => alert('Checklist concluído e salvo!'))
+        .catch(() => setError('Erro ao salvar conclusão.'));
     }
   };
 
-  const updateItem = (index, field, value) => {
+  const updateItem = (i, field, value) => {
     const newItems = [...checklist.items];
-    newItems[index][field] = value;
+    newItems[i][field] = value;
     setChecklist({ ...checklist, items: newItems });
   };
 
-  const deleteItem = (index) => {
-    const newItems = checklist.items.filter((_, i) => i !== index);
+  const deleteItem = (i) => {
+    const newItems = checklist.items.filter((_, idx) => idx !== i);
     setChecklist({ ...checklist, items: newItems });
-    axios.patch(`${API_BASE}/checklists/${id}`, { items: newItems })
-      .catch(() => setError('Failed to delete item. Please try again.'));
+    axios.patch(`${API_BASE}/checklists/${id}`, { items: newItems }).catch(() => setError('Erro ao excluir.'));
   };
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    const oldIndex = checklist.items.findIndex((_, index) => `item-${index}` === active.id);
-    const newIndex = checklist.items.findIndex((_, index) => `item-${index}` === over.id);
+    const oldIdx = checklist.items.findIndex((_, i) => `item-${i}` === active.id);
+    const newIdx = checklist.items.findIndex((_, i) => `item-${i}` === over.id);
     const newItems = [...checklist.items];
-    const [movedItem] = newItems.splice(oldIndex, 1);
-    newItems.splice(newIndex, 0, movedItem);
+    const [moved] = newItems.splice(oldIdx, 1);
+    newItems.splice(newIdx, 0, moved);
     setChecklist({ ...checklist, items: newItems });
-    axios.patch(`${API_BASE}/checklists/${id}`, { items: newItems })
-      .catch(() => setError('Failed to reorder items. Please try again.'));
+    axios.patch(`${API_BASE}/checklists/${id}`, { items: newItems }).catch(() => setError('Erro ao reordenar.'));
   };
 
   const addItem = () => {
-    setChecklist({ 
-      ...checklist, 
-      items: [...checklist.items, { id: '', description: '', checked: false, subItems: [] }]
-    });
+    setChecklist({ ...checklist, items: [...checklist.items, { id: '', description: '', checked: false }] });
   };
 
   const saveEdits = () => {
-    if (checklist.items.some(item => !item.id || !item.description)) {
-      alert('Please fill in all item IDs and descriptions.');
-      return;
-    }
+    if (checklist.items.some(i => !i.id || !i.description)) return alert('Preencha todos os itens.');
     axios.patch(`${API_BASE}/checklists/${id}`, { items: checklist.items })
-      .then(() => {
-        alert('Checklist updated!');
-        setIsEditing(false);
-      })
-      .catch(() => setError('Failed to save checklist. Please try again.'));
+      .then(() => { alert('Checklist atualizado!'); setIsEditing(false); })
+      .catch(() => setError('Erro ao salvar edição.'));
   };
 
-  if (!checklist) return <p>Loading...</p>;
+  if (!checklist) return <p>Carregando...</p>;
 
   return (
-    <ErrorBoundary>
-      <h2>{checklist.name}</h2>
+    <>
       {error && <Alert variant="danger">{error}</Alert>}
-      {isComplete && !isEditing && <Alert variant="success">Checklist Complete!</Alert>}
-      <Button
-        variant={isEditing ? 'success' : 'primary'}
-        onClick={isEditing ? saveEdits : () => setIsEditing(true)}
-        className="mb-3"
-      >
-        {isEditing ? 'Save Edits' : 'Edit Checklist'}
+      <h2>{checklist.name}</h2>
+      {isComplete && !isEditing && <Alert variant="success">Checklist Concluído!</Alert>}
+      <Button variant={isEditing ? 'success' : 'primary'} onClick={isEditing ? saveEdits : () => setIsEditing(true)} className="mb-3">
+        {isEditing ? 'Salvar' : 'Editar'}
       </Button>
+
       {isEditing ? (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={checklist.items.map((_, index) => `item-${index}`)} strategy={verticalListSortingStrategy}>
+          <SortableContext items={checklist.items.map((_, i) => `item-${i}`)} strategy={verticalListSortingStrategy}>
             {checklist.items.map((item, idx) => (
               <SortableItem key={`item-${idx}`} id={`item-${idx}`}>
                 {({ dragHandleProps }) => (
                   <Row className="mb-2 align-items-center">
-                    <Col xs={1}>
-                      <span className="text-muted" {...dragHandleProps}>☰</span>
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        placeholder="ID (e.g., 1.0)"
-                        value={item.id}
-                        onChange={e => updateItem(idx, 'id', e.target.value)}
-                      />
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        placeholder="Description"
-                        value={item.description}
-                        onChange={e => updateItem(idx, 'description', e.target.value)}
-                      />
-                    </Col>
-                    <Col xs={2}>
-                      <Button
-                        variant="danger"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteItem(idx);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </Col>
+                    <Col xs={1}><span className="text-muted" {...dragHandleProps}>Handle</span></Col>
+                    <Col><Form.Control placeholder="ID" value={item.id} onChange={e => updateItem(idx, 'id', e.target.value)} /></Col>
+                    <Col><Form.Control placeholder="Descrição" value={item.description} onChange={e => updateItem(idx, 'description', e.target.value)} /></Col>
+                    <Col xs={2}><Button variant="danger" onClick={e => { e.stopPropagation(); deleteItem(idx); }}>Excluir</Button></Col>
                   </Row>
                 )}
               </SortableItem>
@@ -409,28 +431,15 @@ function ChecklistView({ username }) {
               <Row>
                 <Col md={10}>{item.id} - {item.description}</Col>
                 <Col md={2}>
-                  <Form.Check 
-                    type="switch"
-                    checked={item.checked}
-                    onChange={() => toggleItem(item.id)}
-                    className={item.checked ? 'text-success' : ''}
-                  />
+                  <Form.Check type="switch" checked={item.checked} onChange={() => toggleItem(item.id)} className={item.checked ? 'text-success' : ''} />
                 </Col>
               </Row>
             </ListGroup.Item>
           ))}
         </ListGroup>
       )}
-      {isEditing && (
-        <Button
-          variant="secondary"
-          onClick={addItem}
-          className="mt-2"
-        >
-          Add Item
-        </Button>
-      )}
-    </ErrorBoundary>
+      {isEditing && <Button variant="secondary" onClick={addItem} className="mt-2">+ Item</Button>}
+    </>
   );
 }
 
@@ -441,21 +450,34 @@ function CompletedChecklists() {
   useEffect(() => {
     axios.get(`${API_BASE}/completedChecklists`)
       .then(res => setCompleted(res.data))
-      .catch(() => setError('Failed to load completed checklists. Please try again.'));
+      .catch(() => setError('Erro ao carregar concluídos.'));
   }, []);
 
   return (
-    <ErrorBoundary>
+    <>
       {error && <Alert variant="danger">{error}</Alert>}
-      <h2>Completed Checklists</h2>
-      <ListGroup>
+      <h2>Checklists Concluídos</h2>
+      <Accordion>
         {completed.map(cl => (
-          <ListGroup.Item key={cl.id}>
-            {cl.name} - Completed by {cl.completedBy} on {new Date(cl.completedDate).toLocaleString()}
-          </ListGroup.Item>
+          <Accordion.Item eventKey={cl.id} key={cl.id}>
+            <Accordion.Header>
+              {cl.name} — Por: {cl.completedBy} em {new Date(cl.completedDate).toLocaleString()}
+              <br /><small>Compilado em: {new Date(cl.compilationDate).toLocaleString()}</small>
+            </Accordion.Header>
+            <Accordion.Body>
+              <h5>Passos:</h5>
+              <ListGroup>
+                {cl.items.map(item => (
+                  <ListGroup.Item key={item.id}>
+                    {item.id} - {item.description} <strong>({item.checked ? 'Concluído' : 'Pendente'})</strong>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </Accordion.Body>
+          </Accordion.Item>
         ))}
-      </ListGroup>
-    </ErrorBoundary>
+      </Accordion>
+    </>
   );
 }
 

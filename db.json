@@ -1,4 +1,12 @@
 {
+  "users": [
+    {
+      "id": "3798",
+      "name": "Cristiano Belarmino",
+      "email": "crisbelarma",
+      "password": "181009"
+    }
+  ],
   "categories": [
     {
       "id": "1",
@@ -22,157 +30,157 @@
         {
           "id": "1.1",
           "description": "Funcionando teste",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "1.2",
           "description": "Abrir a pesquisa 'Manager -> 04 - Aguardando Compilação'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "1.0",
           "description": "Alterar itens para qualidade",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "1.3",
           "description": "Selecionar todos os itens da iteração corrente",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "2.0",
           "description": "Criar pesquisa da versão",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "1.5",
           "description": "Na coluna DataCompilacao atualizar todos os registros para a ultima data exemplo - '22/01/2018'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "1.6",
           "description": "Na coluna State altualizar todos os registros para 'Quality'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "1.7",
           "description": "Na Aba Assigned to colocar para o responsável da distribuição",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "1.8",
           "description": "Na aba Team clicar em Publish",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "1.9",
           "description": "Fechar o Excel",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "2.1",
           "description": "Abrir o caminho 'Compilations > ERP \\2018\\'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "2.3",
           "description": "Clicar com o botão direito na pesquisa criada e clicar em 'Edit Query'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "2.4",
           "description": "Clicar em 'Save Query' E clique em Run",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "3.4",
           "description": "Abrir o Arquivo 'Registro de Versão'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "2.5",
           "description": "Clicar em 'Open in Microsoft Officce > Open Query in Microsoft Excel'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "2.6",
           "description": "Não fechar o Excel",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "3.0",
           "description": "Alterar o Excel de itens da versão",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "3.2",
           "description": "Abrir o Caminho 'ERP\\01 Desenvolvimento\\Tools\\Wps_Procedimentos\\Wps_Procedimentos\\ Procedimento Atualização\\Compilação'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "2.2",
           "description": "Copiar a ultima pesquisa e colar renomeando para a data da compilação atual",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "3.1",
           "description": "Get Last Version e Abrir o Source Control Explorer",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "3.3",
           "description": "Clicar com o botão direito no arquivo 'Registro de Versão' e clicar em 'Check Out for Edit...'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "3.5",
           "description": "Copiar o conteúdo das colunas 'ID, Title, Responsável, Cliente' do Excel do ite",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "3.6",
           "description": "Colar no Excel 'Registro de Versão'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "3.7",
           "description": "Salvar o arquivo e fazer check in no arquivo 'Registro de Versão'",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "4.0",
           "description": "Passar para o responsável da compilação depois de compilar a versão",
-          "checked": false,
+          "checked": true,
           "subItems": []
         },
         {
           "id": "14",
           "description": "jhkjhkjhk",
-          "checked": false,
+          "checked": true,
           "subItems": []
         }
       ]
@@ -441,6 +449,173 @@
       ],
       "completedBy": "crisbelarma",
       "completedDate": "2025-10-22T23:47:04.584Z"
+    },
+    {
+      "id": "1",
+      "categoryId": 1,
+      "name": "Preparar versão para compilar",
+      "items": [
+        {
+          "id": "1.1",
+          "description": "Funcionando teste",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.2",
+          "description": "Abrir a pesquisa 'Manager -> 04 - Aguardando Compilação'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.0",
+          "description": "Alterar itens para qualidade",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.3",
+          "description": "Selecionar todos os itens da iteração corrente",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.0",
+          "description": "Criar pesquisa da versão",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.5",
+          "description": "Na coluna DataCompilacao atualizar todos os registros para a ultima data exemplo - '22/01/2018'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.6",
+          "description": "Na coluna State altualizar todos os registros para 'Quality'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.7",
+          "description": "Na Aba Assigned to colocar para o responsável da distribuição",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.8",
+          "description": "Na aba Team clicar em Publish",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "1.9",
+          "description": "Fechar o Excel",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.1",
+          "description": "Abrir o caminho 'Compilations > ERP \\2018\\'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.3",
+          "description": "Clicar com o botão direito na pesquisa criada e clicar em 'Edit Query'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.4",
+          "description": "Clicar em 'Save Query' E clique em Run",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.4",
+          "description": "Abrir o Arquivo 'Registro de Versão'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.5",
+          "description": "Clicar em 'Open in Microsoft Officce > Open Query in Microsoft Excel'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.6",
+          "description": "Não fechar o Excel",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.0",
+          "description": "Alterar o Excel de itens da versão",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.2",
+          "description": "Abrir o Caminho 'ERP\\01 Desenvolvimento\\Tools\\Wps_Procedimentos\\Wps_Procedimentos\\ Procedimento Atualização\\Compilação'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "2.2",
+          "description": "Copiar a ultima pesquisa e colar renomeando para a data da compilação atual",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.1",
+          "description": "Get Last Version e Abrir o Source Control Explorer",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.3",
+          "description": "Clicar com o botão direito no arquivo 'Registro de Versão' e clicar em 'Check Out for Edit...'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.5",
+          "description": "Copiar o conteúdo das colunas 'ID, Title, Responsável, Cliente' do Excel do ite",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.6",
+          "description": "Colar no Excel 'Registro de Versão'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "3.7",
+          "description": "Salvar o arquivo e fazer check in no arquivo 'Registro de Versão'",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "4.0",
+          "description": "Passar para o responsável da compilação depois de compilar a versão",
+          "checked": true,
+          "subItems": []
+        },
+        {
+          "id": "14",
+          "description": "jhkjhkjhk",
+          "checked": true,
+          "subItems": []
+        }
+      ],
+      "completedBy": "Cristiano Belarmino",
+      "userId": "3798",
+      "completedDate": "2025-10-24T00:42:05.411Z",
+      "compilationDate": "2025-10-24T00:42:05.411Z"
     }
   ]
 }
