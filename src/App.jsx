@@ -7,7 +7,7 @@ import { DndContext, closestCenter, useSensor, useSensors, PointerSensor } from 
 import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const API_BASE = 'http://localhost:3001'; // Atualize para o backend em produção
+const API_BASE = 'https://jsonbackend-27i6.onrender.com/api'; // Atualize para o backend em produção
 
 function SortableItem({ id, children }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
